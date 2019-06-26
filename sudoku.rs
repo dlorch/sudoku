@@ -41,7 +41,7 @@ fn print_playfield(playfield: SudokuPlayfield) {
             println!();
         }
 
-        for j in 0..9 {
+        for j in 0 .. 9 {
             if j % 3 == 0 {
                 print!("|")
             }
@@ -59,7 +59,7 @@ fn print_playfield(playfield: SudokuPlayfield) {
         println!("|");
     }
 
-    for _i in 1..20 {
+    for _i in 1 .. 20 {
         print!("-");
     }
     println!();
