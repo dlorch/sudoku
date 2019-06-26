@@ -52,3 +52,5 @@ Links
 
 * [Wikipedia: Sudoku](https://en.wikipedia.org/wiki/Sudoku)
 * [Summer Sudoku Easy](http://www.summersudoku.com/sudokuEasy.php)
+* [Rust for C++ Programmers: Arrays and Vectors](https://github.com/aminb/rust-for-c/tree/master/arrays)
+* [The Rust Programming Language: Understanding Ownership](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html)
