@@ -181,7 +181,7 @@ fn main() {
     println!("Input:");
     print_playfield(_playfield_easy);
 
-    let result = solve_sudoku(_playfield_wikipedia_de);
+    let result = solve_sudoku(_playfield_easy);
     match result {
         Some(solution) => {
             println!("Solution:");
