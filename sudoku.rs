@@ -69,7 +69,7 @@ fn print_playfield(playfield: SudokuPlayfield) {
 fn valid_options(index: usize, playfield: SudokuPlayfield) -> HashSet<i32> {
     let mut options = HashSet::new();
 
-    if &playfield[index] == &0 {
+    if playfield[index] == 0 {
         for i in 0 .. 10 {
             options.insert(i);
         }
@@ -181,7 +181,7 @@ fn main() {
     println!("Input:");
     print_playfield(_playfield_easy);
 
-    let result = solve_sudoku(_playfield_easy);
+    let result = solve_sudoku(_playfield_wikipedia_de);
     match result {
         Some(solution) => {
             println!("Solution:");
