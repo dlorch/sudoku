@@ -31,7 +31,6 @@
 use std::collections::HashSet;
 
 type SudokuPlayfield = [i32; 81];
-const NO_MORE_VALUES: i32 = -1;
 
 fn print_playfield(playfield: &SudokuPlayfield) {
     for i in 0 .. 9 {
@@ -100,12 +99,12 @@ fn valid_options(index: usize, playfield: &SudokuPlayfield) -> HashSet<i32> {
     return options;
 }
 
-fn find_next_index(playfield: &SudokuPlayfield) -> i32 {
-    let mut index: i32 = NO_MORE_VALUES;
+fn find_next_index(playfield: &SudokuPlayfield) -> Option<i32> {
+    let mut index: Option<i32> = None;
 
     for i in 0 .. 81 {
         if playfield[i] == 0 {
-            index = i as i32;
+            index = Some(i as i32);
             break;
         }
     }
@@ -116,30 +115,33 @@ fn find_next_index(playfield: &SudokuPlayfield) -> i32 {
 // brute-force depth-first-search solver
 fn solve_sudoku(input_playfield: &SudokuPlayfield) -> Option<SudokuPlayfield> {
     let mut result: Option<SudokuPlayfield> = None;
-    let index = find_next_index(input_playfield);
+    let next_index = find_next_index(input_playfield);
 
-    if index == NO_MORE_VALUES {
-        result = Some(input_playfield.clone());
-    } else {
-        let options = valid_options(index as usize, &input_playfield);
-        let mut playfield = input_playfield.clone();
-        let mut found_solution = false;
+    match next_index {
+        Some(index) => {
+            let options = valid_options(index as usize, &input_playfield);
+            let mut playfield = input_playfield.clone();
+            let mut found_solution = false;
 
-        for option in options {
-            if !found_solution {
-                playfield[index as usize] = option;
-                let depth_first_search_result = solve_sudoku(&playfield);
+            for option in options {
+                if !found_solution {
+                    playfield[index as usize] = option;
+                    let depth_first_search_result = solve_sudoku(&playfield);
 
-                if depth_first_search_result.is_some() {
-                    result = depth_first_search_result;
-                    found_solution = true;
+                    if depth_first_search_result.is_some() {
+                        result = depth_first_search_result;
+                        found_solution = true;
+                    }
                 }
             }
-        }
 
-        if !found_solution {
-            result = None; // all options exhausted -> backtrack
-        }
+            if !found_solution {
+                result = None; // all options exhausted -> backtrack
+            }
+        },
+        None => {
+            result = Some(input_playfield.clone());
+        },
     }
 
     return result; // return solution
