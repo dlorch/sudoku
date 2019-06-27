@@ -40,6 +40,12 @@ Solution:
 cargo run  57,62s user 0,53s system 100% cpu 58,089 total
 ````
 
+TODO
+----
+
+* Since converting the return type of `fn solve_sudoku` to an `Option` value, the solver runs about 340 seconds instead of 60 seconds for `_playfield_wikipedia_de`. Investigate why.
+* Better understand array values and call-by-value / call-by-reference semantics in Rust
+
 Concepts
 --------
 
@@ -52,5 +58,6 @@ Links
 
 * [Wikipedia: Sudoku](https://en.wikipedia.org/wiki/Sudoku)
 * [Summer Sudoku Easy](http://www.summersudoku.com/sudokuEasy.php)
+* [Option Values](https://doc.rust-lang.org/rust-by-example/std/option.html)
 * [Rust for C++ Programmers: Arrays and Vectors](https://github.com/aminb/rust-for-c/tree/master/arrays)
 * [The Rust Programming Language: Understanding Ownership](https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html)
