@@ -33,7 +33,7 @@ use std::collections::HashSet;
 type SudokuPlayfield = [i32; 81];
 const NO_MORE_VALUES: i32 = -1;
 
-fn print_playfield(playfield: SudokuPlayfield) {
+fn print_playfield(playfield: &SudokuPlayfield) {
     for i in 0 .. 9 {
         if i % 3 == 0 {
             for _i in 1..20 {
@@ -66,7 +66,7 @@ fn print_playfield(playfield: SudokuPlayfield) {
     println!();
 }
 
-fn valid_options(index: usize, playfield: SudokuPlayfield) -> HashSet<i32> {
+fn valid_options(index: usize, playfield: &SudokuPlayfield) -> HashSet<i32> {
     let mut options = HashSet::new();
 
     if playfield[index] == 0 {
@@ -100,7 +100,7 @@ fn valid_options(index: usize, playfield: SudokuPlayfield) -> HashSet<i32> {
     return options;
 }
 
-fn find_next_index(playfield: SudokuPlayfield) -> i32 {
+fn find_next_index(playfield: &SudokuPlayfield) -> i32 {
     let mut index: i32 = NO_MORE_VALUES;
 
     for i in 0 .. 81 {
@@ -114,21 +114,21 @@ fn find_next_index(playfield: SudokuPlayfield) -> i32 {
 }
 
 // brute-force depth-first-search solver
-fn solve_sudoku(input_playfield: SudokuPlayfield) -> Option<SudokuPlayfield> {
+fn solve_sudoku(input_playfield: &SudokuPlayfield) -> Option<SudokuPlayfield> {
     let mut result: Option<SudokuPlayfield> = None;
     let index = find_next_index(input_playfield);
 
     if index == NO_MORE_VALUES {
-        result = Some(input_playfield);
+        result = Some(input_playfield.clone());
     } else {
-        let options = valid_options(index as usize, input_playfield);
+        let options = valid_options(index as usize, &input_playfield);
         let mut playfield = input_playfield.clone();
         let mut found_solution = false;
 
         for option in options {
             if !found_solution {
                 playfield[index as usize] = option;
-                let depth_first_search_result = solve_sudoku(playfield);
+                let depth_first_search_result = solve_sudoku(&playfield);
 
                 if depth_first_search_result.is_some() {
                     result = depth_first_search_result;
@@ -146,11 +146,6 @@ fn solve_sudoku(input_playfield: SudokuPlayfield) -> Option<SudokuPlayfield> {
 }
 
 fn main() {
-    // Arrays in Rust are *value* types; they are allocated on the stack and copied when passing
-    // them to a function. There is no need to handle ownership (borrowing etc.) for them.
-    // https://github.com/aminb/rust-for-c/tree/master/arrays
-    // https://doc.rust-lang.org/book/ch04-00-understanding-ownership.html
-
     let _playfield_easy: SudokuPlayfield =
     [
         6, 2, 5, 0, 0, 0, 7, 0, 0,
@@ -179,13 +174,13 @@ fn main() {
     ];
 
     println!("Input:");
-    print_playfield(_playfield_easy);
+    print_playfield(&_playfield_easy);
 
-    let result = solve_sudoku(_playfield_easy);
+    let result = solve_sudoku(&_playfield_easy);
     match result {
         Some(solution) => {
             println!("Solution:");
-            print_playfield(solution);
+            print_playfield(&solution);
         },
         None => println!("No solution could be found."),
     };
